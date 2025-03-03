@@ -3,50 +3,57 @@
 #include <iomanip>
 #include <climits>
 using namespace std;
-void Input(double **temp, int days, int col);
-void Display(double **temp, int days, int col);
+void Input(double **temp, int days, int block);
+void Display(double **temp, int days, int block);
 void MAX_Temp(double **temp, int days);
 void LOW_Temp(double **temp, int days);
 void Average(double **temp, int days);
 void Trend(double **temp, int days);
+inline void spaces()
+{
+    cout << endl;
+    cout << endl;
+    cout << endl;
+}
 
 int main()
 {
 
-    const int days = 3;
-    int col = 3;
-
+    cout << "You have to put Thirty Days Data for Temperatures\n";
+    const int days = 30;
+    int block = 3;
     double **temp = new double *[days];
     for (int i = 0; i < days; i++)
     {
-        temp[i] = new double[col];
+        temp[i] = new double[block];
     }
-    Input(temp, days, col);
-    Display(temp, days, col);
-    cout << endl;
-    cout << endl;
+    Input(temp, days, block);
+    Display(temp, days, block);
+    spaces();
     MAX_Temp(temp, days);
-    cout << endl;
-    cout << endl;
+    spaces();
     LOW_Temp(temp, days);
+    spaces();
     Average(temp, days);
+    spaces();
     Trend(temp, days);
+    delete[] temp;
     return 0;
 }
-void Input(double **temp, int days, int col)
+void Input(double **temp, int days, int block)
 
 {
     for (int i = 0; i < days; i++)
     {
         cout << " Enter the Min, Max and Average for " << " Day " << i + 1 << ":" << endl;
-        for (int j = 0; j < col; j++)
+        for (int j = 0; j < block; j++)
         {
 
             cin >> temp[i][j];
         }
     }
 }
-void Display(double **temp, int days, int col)
+void Display(double **temp, int days, int block)
 
 {
     cout << "\n+------+--------+--------+--------+\n";
@@ -87,17 +94,17 @@ void LOW_Temp(double **temp, int days)
 {
 
     double Min_Temperature = INT_MAX;
-    int Cold_Day = -1;
+    int Coldest_Day = -1;
 
     for (int i = 0; i < days; i++)
     {
         if (temp[i][1] < Min_Temperature)
         {
             Min_Temperature = temp[i][1];
-            Cold_Day = i;
+            Coldest_Day = i;
         }
     }
-    cout << " The Coldest Day of the Month is " << Cold_Day + 1 << endl;
+    cout << " The Coldestest Day of the Month is " << Coldest_Day + 1 << endl;
 }
 void Average(double **temp, int days)
 {
