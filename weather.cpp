@@ -8,6 +8,8 @@ void Display(double **temp, int days, int col);
 void MAX_Temp(double **temp, int days);
 void LOW_Temp(double **temp, int days);
 void Average(double **temp, int days);
+void Trend(double **temp, int days);
+
 int main()
 {
 
@@ -28,6 +30,7 @@ int main()
     cout << endl;
     LOW_Temp(temp, days);
     Average(temp, days);
+    Trend(temp, days);
     return 0;
 }
 void Input(double **temp, int days, int col)
@@ -105,4 +108,24 @@ void Average(double **temp, int days)
     }
     Average /= days;
     cout << " The Monthly Average is GIven as " << Average << endl;
+}
+void Trend(double **temp, int days)
+{
+    cout << "\n Temperature Trends For Maximum Temperatures " << endl;
+    for (int i = 1; i < days; i++)
+    {
+        if (temp[i][1] > temp[i - 1][1])
+        {
+            cout << " Day " << i + 1 << ":" << " Increasing " << " " << "(" << temp[i - 1][1] << "°C → " << temp[i][1] << ")" << endl;
+        }
+        else if (temp[i][1] < temp[i - 1][1])
+        {
+            cout << " Day " << i + 1 << ":" << " Decreasing " << " " << "(" << temp[i - 1][1] << "°C → " << temp[i][1] << ")" << endl;
+        }
+        else
+        {
+            cout << "Day " << i + 1 << ": Stable ("
+                 << temp[i - 1][1] << "°C → " << temp[i][1] << "°C)\n";
+        }
+    }
 }
