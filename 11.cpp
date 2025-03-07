@@ -86,6 +86,7 @@ void all_in_one()
         delete[] image[i];
     }
     delete[] image;
+    image = nullptr;
 }
 void Inputs(int **image, int r, int c)
 
