@@ -7,7 +7,7 @@ void Display(int **image, int r, int c);
 void Inputs(int **image, int r, int c);
 void Flip(int **image, int r, int c);
 void Negative(int **image, int r, int c);
-void Crop(int **image, int &r, int &c);
+void Crop(int **&image, int &r, int &c);
 int main()
 {
     all_in_one();
