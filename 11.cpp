@@ -81,6 +81,11 @@ void all_in_one()
         cin.get();
 
     } while (!flag);
+    for (int i = 0; i < row; i++)
+    {
+        delete[] image[i];
+    }
+    delete[] image;
 }
 void Inputs(int **image, int r, int c)
 
@@ -133,7 +138,7 @@ void Negative(int **image, int r, int c)
         }
     }
 }
-void Crop(int **image, int &r, int &c)
+void Crop(int **&image, int &r, int &c)
 {
     int new_r, new_c;
     do
@@ -150,34 +155,30 @@ void Crop(int **image, int &r, int &c)
 
     } while (new_r > r || new_c > c);
 
-    r = new_r;
-    c = new_c;
-
-    cout << "The Crop is Done and Given as:\n";
-
-    int **tempArr = new int *[r];
-    for (int i = 0; i < r; i++)
+    int **tempArr = new int *[new_r];
+    for (int i = 0; i < new_r; i++)
     {
-        tempArr[i] = new int[c];
+        tempArr[i] = new int[new_c];
     }
-    for (int i = 0; i < r; i++)
+
+    for (int i = 0; i < new_r; i++)
     {
-        for (int j = 0; j < c; j++)
+        for (int j = 0; j < new_c; j++)
         {
             tempArr[i][j] = image[i][j];
         }
     }
-    delete[] image;
-    image = tempArr;
 
-    cout << "\nImage Representation:\n";
     for (int i = 0; i < r; i++)
     {
-        cout << "║";
-        for (int j = 0; j < c; j++)
-        {
-            cout << setw(4) << image[i][j];
-        }
-        cout << "  ║" << endl;
+        delete[] image[i];
     }
+    delete[] image;
+
+    image = tempArr;
+    r = new_r;
+    c = new_c;
+
+    cout << "The Crop is Done and Given as:\n";
+    Display(image, r, c);
 }
