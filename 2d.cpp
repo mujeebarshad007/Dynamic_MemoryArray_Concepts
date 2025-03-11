@@ -5,6 +5,9 @@ void Input(int **matrix1, int row, int col);
 int **CreateMatrix(int r, int c);
 void Display(int **matrix1, int row, int col);
 int **Add(int **A, int **B, int row, int col);
+int **Multiply(int **A, int **B, int r1, int c1, int r2, int c2);
+int **Transpose(int **A, int r, int c);
+void Deallocate(int **A, int r);
 
 int main()
 {
@@ -43,14 +46,40 @@ void all_ine_one()
     if (row == row1 && col == col1)
     {
 
-        cout "The Added Matrix is\n";
+        cout << "The Added Matrix is\n";
         int **Added = Add(Matrix1, Matrix2, row, col);
         Display(Added, row, col);
+        Deallocate(Added, row);
     }
     else
     {
-        cout << " For Addition The Dimensions of Both Matrices should be samen ";
+        cout << " For Addition The Dimensions of Both Matrices should be same\n ";
     }
+
+    if (col == row1)
+    {
+        cout << " Multiplied Successfully" << endl;
+        int **Multiplied = Multiply(Matrix1, Matrix2, row, col, row1, col1);
+        Display(Multiplied, row, col1);
+        Deallocate(Multiplied, row);
+    }
+    else
+    {
+        cout << " For Multiply The Row of of B should be equal to Column of A\n ";
+    }
+    cout << endl;
+    cout << " The Transpose of The Matrix 1 is " << endl;
+    int **Transpose_Matrix1 = Transpose(Matrix1, row, col);
+    Display(Transpose_Matrix1, col, row);
+
+    cout << " The Transpose of The Matrix 2 is " << endl;
+    int **Transpose_Matrix2 = Transpose(Matrix2, row1, col1);
+    Display(Transpose_Matrix2, col1, row1);
+
+    Deallocate(Matrix1, row);
+    Deallocate(Matrix2, row1);
+    Deallocate(Transpose_Matrix1, col);
+    Deallocate(Transpose_Matrix2, col1);
 }
 int **CreateMatrix(int r, int c)
 {
@@ -94,4 +123,40 @@ int **Add(int **A, int **B, int row, int col)
         }
     }
     return result;
+}
+int **Multiply(int **A, int **B, int r1, int c1, int r2, int c2)
+{
+    int **Multiplied_Matrix = CreateMatrix(r1, c2);
+    for (int i = 0; i < r1; i++)
+    {
+        for (int j = 0; j < c2; j++)
+        {
+            Multiplied_Matrix[i][j] = 0;
+            for (int k = 0; k < c1; k++)
+            {
+                Multiplied_Matrix[i][j] += A[i][k] * B[k][j];
+            }
+        }
+    }
+    return Multiplied_Matrix;
+}
+int **Transpose(int **A, int r, int c)
+{
+    int **Transposed = CreateMatrix(c, r);
+    for (int a = 0; a < r; a++)
+    {
+        for (int b = 0; b < c; b++)
+        {
+            Transposed[b][a] = A[a][b];
+        }
+    }
+    return Transposed;
+}
+void Deallocate(int **A, int r)
+{
+    for (int i = 0; i < r; i++)
+    {
+        delete[] A[i];
+    }
+    delete[] A;
 }
