@@ -4,5 +4,7 @@ int main()
 {
     int a;
     a = 1234;
+    int b,c;
+    
     return 0;
 }
