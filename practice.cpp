@@ -1,5 +1,6 @@
 #include <iostream>
 using namespace std;
+void all_in_one();
 int **CreateMatrix(int r, int c)
 {
     int **Matrix = new int *[r];
@@ -49,11 +50,11 @@ int **Multiply(int **A, int **B, int r, int c, int r1, int c1)
     }
     return Multiplied;
 }
-int Add(int **A, int **B, int r1, int c1)
+int **Add(int **A, int **B, int r1, int c1)
 {
-    int **Add_Matrix = CreateMatrix(r1, c1)
+    int **Add_Matrix = CreateMatrix(r1, c1);
 
-        for (int i = 0; i < r1; i++)
+    for (int i = 0; i < r1; i++)
     {
         for (int j = 0; j < c1; j++)
         {
@@ -61,6 +62,35 @@ int Add(int **A, int **B, int r1, int c1)
         }
     }
     return Add_Matrix;
+}
+
+int **transpose(int **A, int r, int c)
+{
+    int **Transposed = CreateMatrix(c, r);
+    for (int i = 0; i < r; i++)
+    {
+        for (int j = 0; j < c; j++)
+
+        {
+            Transposed[j][i] = A[i][j];
+        }
+    }
+    return Transposed;
+}
+void Deallocate(int **Matrix, int row, int col)
+{
+    for (int i = 0; i < row; i++)
+    {
+        delete Matrix[i];
+    }
+    delete[] Matrix;
+}
+
+int main()
+{
+    all_in_one();
+
+    return 0;
 }
 void all_in_one()
 {
@@ -81,9 +111,11 @@ void all_in_one()
     Input(Matrix1, row1, col1);
     cout << " Enter the Value of Matrix 2" << endl;
     Input(Matrix2, row2, col2);
-    if (row1 == col1 & row2 == col2)
+    if (row1 == row2 && col1 == col2)
     {
         int **Added = Add(Matrix1, Matrix2, row1, col2);
+        cout << " The Added Matrix is " << endl;
+        cout << endl;
         display(Added, row1, col2);
         Deallocate(Added, row1, col2);
     }
@@ -96,25 +128,27 @@ void all_in_one()
         cout << " The Matrix Multiplied Successfully \n";
         int **Multiplied_Matrix = Multiply(Matrix1, Matrix2, row1, col1, row2, col2);
         display(Multiplied_Matrix, row1, col2);
-        Deallocate(Multiplied_Matrix, row1);
+        Deallocate(Multiplied_Matrix, row1, col2);
     }
     else
     {
         cout << "Not possible Row and Columns not match for Multiply\n";
     }
-}
-void Deallocate(int **Matrix, int row, int col)
-{
-    for (for int i=0;i<row;i++)
+
+    cout << endl;
+    int choice;
+    cout << " Enter the Matrix Number you want to transpose 1 or 2" << endl;
+    cin >> choice;
+    if (choice == '1')
     {
-        delete Matrix[i];
+        int **Transposed_Matrtix1 = transpose(Matrix1, row1, col1);
+        display(Transposed_Matrtix1, col1, row1);
+        Deallocate(Transposed_Matrtix1, row1, col1);
     }
-    delete[] Matrix;
-}
-
-int main()
-{
-    all_in_one();
-
-    return 0;
+    else
+    {
+        int **Transposed_Matrtix2 = transpose(Matrix2, row2, col2);
+        display(Transposed_Matrtix2, col2, row2);
+        Deallocate(Transposed_Matrtix2, row2, col2);
+    }
 }
