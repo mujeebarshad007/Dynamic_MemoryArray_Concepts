@@ -1,120 +1,120 @@
-
 #include <iostream>
 using namespace std;
-void display(int *&arr, int size)
+int **CreateMatrix(int r, int c)
 {
-    cout << " The elemnets in the array are " << endl;
-    for (int i = 0; i < size; i++)
+    int **Matrix = new int *[r];
+    for (int i = 0; i < r; i++)
     {
-        cout << arr[i] << " ";
+        Matrix[i] = new int[c];
     }
+    return Matrix;
 }
-void input(int *&arr, int size)
+void Input(int **matrix, int row, int col)
 {
-    for (int i = 0; i < size; i++)
-    {
-        cout << " Enter the Value at the Index " << i + 1 << endl;
-        cin >> arr[i];
-    }
-}
-void Insert(int *arr, int size)
-{
-    int ind;
-    cout << " Enter the index where you want to add value " << endl;
-    cin >> ind;
-    if (ind < 0 || ind > size)
-    {
-        cout << " Invalid index " << endl;
-        return;
-    }
-    int num;
-    cout << " Enter the value you want to add " << endl;
-    cin >> num;
-    int *temp = new int[size + 1];
-    for (int i = 0; i < size; i++)
-    {
-        temp[i] = arr[i];
-    }
-    delete[] arr;
-    arr = temp;
-    size++;
-    for (int i = size - 1; i > ind - 1; i--)
-    {
-        arr[i] = arr[size - 1];
-    }
-    arr[ind] = num;
-}
-void add(int *&arr, int &size)
-{
-    int add;
 
-    cout << " Enter the number of elements you want to add " << endl;
-    cin >> add;
-    int *temp = new int[size + add];
-    for (int i = 0; i < size; i++)
+    for (int i = 0; i < row; i++)
     {
-        temp[i] = arr[i];
-    }
-    cout << " Enter the New elemnets of the array " << endl;
-    for (int i = size; i < size + add; i++)
-    {
-        cin >> temp[i];
-    }
-    delete[] arr;
-    arr = temp;
-    size += add;
-}
-void remove(int *&arr, int &size)
-{
-    int rm;
-    cout << " Enter the Specific Element you want to remove " << endl;
-    cin >> rm;
-    int index = -1;
-    for (int i = 0; i < size; i++)
-    {
-        if (arr[i] == rm)
+        for (int j = 0; j < col; j++)
         {
-            index = i;
-            break;
+            cout << "At Index" << "[" << i << "]" << "[" << j << "]";
+            cin >> matrix[i][j];
         }
     }
-    if (index == -1)
-    {
-        cout << " Not any index found " << endl;
-    }
-    for (int i = index; i < size - 1; i++)
-    {
-        arr[i] = arr[i + 1];
-    }
-    int *temp = new int[size - 1];
-    for (int i = 0; i < size - 1; i++)
-    {
-        temp[i] = arr[i];
-    }
-    delete[] arr;
-    arr = temp;
-    size--;
-    cout << " The element you want to remove is removed " << endl;
-    cout << " The new array is " << endl;
-    display(arr, size);
-    cout << endl;
 }
+void display(int **Matrix, int row, int col)
+{
+    for (int i = 0; i < row; i++)
+    {
+        for (int j = 0; j < col; j++)
+        {
+            cout << Matrix[i][j] << " ";
+        }
+        cout << endl;
+    }
+}
+int **Multiply(int **A, int **B, int r, int c, int r1, int c1)
 
+{
+    int **Multiplied = CreateMatrix(r, c1);
+    for (int i = 0; i < r; i++)
+    {
+        for (int j = 0; j < c1; j++)
+        {
+            Multiplied[i][j] = 0;
+            for (int k = 0; k < c; k++)
+            {
+                Multiplied[i][j] += A[i][k] * B[k][j];
+            }
+        }
+    }
+    return Multiplied;
+}
+int Add(int **A, int **B, int r1, int c1)
+{
+    int **Add_Matrix = CreateMatrix(r1, c1)
+
+        for (int i = 0; i < r1; i++)
+    {
+        for (int j = 0; j < c1; j++)
+        {
+            Add_Matrix[i][j] = A[i][j] + B[i][j];
+        }
+    }
+    return Add_Matrix;
+}
 void all_in_one()
 {
-    int size = 5;
-    int *arr = new int[size];
-    input(arr, size);
-    display(arr, size);
-    cout << endl;
-    add(arr, size);
-    cout << endl;
-    display(arr, size);
-    remove(arr, size);
-    cout << endl;
+    int row1, col1;
+    int row2, col2;
+
+    cout << " Enter the row of the Matrix 1 " << endl;
+    cin >> row1;
+    cout << " Enter the Column of the Matrix 1" << endl;
+    cin >> col1;
+    cout << " Enter the row of the Matrix 2 " << endl;
+    cin >> row2;
+    cout << " Enter the Column of the Matrix 2" << endl;
+    cin >> col2;
+    int **Matrix1 = CreateMatrix(row1, col1);
+    int **Matrix2 = CreateMatrix(row2, col2);
+    cout << " Enter the Value of Matrix 1" << endl;
+    Input(Matrix1, row1, col1);
+    cout << " Enter the Value of Matrix 2" << endl;
+    Input(Matrix2, row2, col2);
+    if (row1 == col1 & row2 == col2)
+    {
+        int **Added = Add(Matrix1, Matrix2, row1, col2);
+        display(Added, row1, col2);
+        Deallocate(Added, row1, col2);
+    }
+    else
+    {
+        cout << " The Rows and Columns of Both Matrixes Should be same " << endl;
+    }
+    if (col1 == row2)
+    {
+        cout << " The Matrix Multiplied Successfully \n";
+        int **Multiplied_Matrix = Multiply(Matrix1, Matrix2, row1, col1, row2, col2);
+        display(Multiplied_Matrix, row1, col2);
+        Deallocate(Multiplied_Matrix, row1);
+    }
+    else
+    {
+        cout << "Not possible Row and Columns not match for Multiply\n";
+    }
 }
+void Deallocate(int **Matrix, int row, int col)
+{
+    for (for int i=0;i<row;i++)
+    {
+        delete Matrix[i];
+    }
+    delete[] Matrix;
+}
+
 int main()
 {
     all_in_one();
+
     return 0;
 }
